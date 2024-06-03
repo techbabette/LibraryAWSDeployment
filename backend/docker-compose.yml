@@ -7,13 +7,13 @@ services:
      - "443:443"
     environment:
       APP_ENV: production
-      DB_HOST: ${RDSAddress}
-      DB_PASSWORD: ${RDSPassword}
-      MAIL_USERNAME: ${MailUsername}
-      MAIL_PASSWORD: ${MailPassword}
-      MAIL_FROM_ADDRESS: ${MailUsername}
-      MAIL_FROM_NAME: ${MailUsername}
-      AWS_ACCESS_KEY_ID: ${S3AccessKey}
-      AWS_SECRET_ACCESS_KEY: ${S3AccessKeySecret}
-      AWS_BUCKET: ${S3BucketName}
-      websiteUrl: ${CloudfrontURL}
+      DB_HOST: "${RDSAddress}"
+      DB_PASSWORD: "${RDSPassword}"
+      MAIL_USERNAME: "${MailUsername}"
+      MAIL_PASSWORD: "${MailPassword}"
+      MAIL_FROM_ADDRESS: "${MailUsername}"
+      MAIL_FROM_NAME: "${MailUsername}"
+      AWS_ACCESS_KEY_ID: "${S3AccessKey}"
+      AWS_SECRET_ACCESS_KEY: "${S3AccessKeySecret}"
+      AWS_BUCKET: "${S3BucketName}"
+      websiteUrl: "${CloudfrontURL}"
