@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /admin
+
+Sitemap: https://dszkzv3o6c2jj.cloudfront.net/sitemap.xml
