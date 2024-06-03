@@ -69,8 +69,6 @@ resource "aws_iam_role_policy" "lamda_policy" {
       }
     ]
   })
-
-  depends_on = [ aws_lambda_function.database_refresher ]
 }
 
 resource "aws_iam_role_policy" "scheduler_policy" {

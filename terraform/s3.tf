@@ -1,5 +1,5 @@
 data "external" "build_vue_app" {
-  program = ["bash", "${path.cwd}/build_vue_app.sh", "https://librarybackend.techbabette.com/api"]
+  program = ["bash", "${path.cwd}/build_vue_app.sh", aws_instance.public_laravel.public_ip]
 }
 
 resource "aws_s3_bucket" "vue_app_bucket" {

@@ -1,3 +1,13 @@
+resource "aws_security_group" "public_laravel" {
+  name        = "citylibrarypublic_laravel"
+  description = "Allow inbound traffic to port 443, 22 and all outbound traffic"
+  vpc_id      = aws_vpc.main.id
+
+  tags = {
+    Name = "citylibrarypublic_laravel"
+  }
+}
+
 resource "aws_security_group" "private_database" {
   name        = "citylibraryprivate_database"
   description = "Allow inbound traffic to port 3306 and all outbound traffic"
@@ -19,6 +29,31 @@ resource "aws_security_group" "private_lambda" {
 }
 
 #SECURITY GROUP INGRESS RULES
+resource "aws_vpc_security_group_ingress_rule" "allow_ssh_laravel" {
+  security_group_id = aws_security_group.public_laravel.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 22
+  ip_protocol       = "tcp"
+  to_port           = 22
+}
+
+
+resource "aws_vpc_security_group_ingress_rule" "allow_public_insecure_laravel" {
+  security_group_id = aws_security_group.public_laravel.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_public_laravel" {
+  security_group_id = aws_security_group.public_laravel.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 443
+  ip_protocol       = "tcp"
+  to_port           = 443
+}
+
 resource "aws_vpc_security_group_ingress_rule" "allow_private_database" {
   security_group_id = aws_security_group.private_database.id
   cidr_ipv4         = aws_vpc.main.cidr_block
@@ -40,7 +75,19 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6_database" 
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
 
-#SECURITY GROUP EGRESS RULES
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4_laravel" {
+  security_group_id = aws_security_group.public_laravel.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6_laravel" {
+  security_group_id = aws_security_group.public_laravel.id
+  cidr_ipv6         = "::/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
+
+
 resource "aws_vpc_security_group_egress_rule" "allow_database_ipv4_lambda" {
   security_group_id = aws_security_group.private_lambda.id
   cidr_ipv4         = "0.0.0.0/0"
