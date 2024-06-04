@@ -9,7 +9,7 @@ resource "aws_db_subnet_group" "librarydb_group" {
 
 resource "aws_db_instance" "librarydb" {
   allocated_storage    = 10
-  db_name              = "citylibrarydb"
+  db_name              = "books"
   engine               = "mysql"
   engine_version       = "8.0"
   instance_class       = "db.t3.micro"

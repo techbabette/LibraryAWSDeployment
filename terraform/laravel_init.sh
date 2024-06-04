@@ -37,4 +37,6 @@
 
     docker compose up -d --build
 
+    docker exec backend-application-1 php artisan migrate:fresh --seed --force
+
     echo "Script executed successfully, frontend address is ${CloudfrontURL}" >> /run/testing.txt

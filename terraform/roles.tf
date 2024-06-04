@@ -69,6 +69,8 @@ resource "aws_iam_role_policy" "lamda_policy" {
       }
     ]
   })
+
+  depends_on = [ aws_iam_role.lambda_role ]
 }
 
 resource "aws_iam_role_policy" "scheduler_policy" {

@@ -23,6 +23,8 @@ resource "aws_lambda_function" "database_refresher" {
       DB_PASSWORD = aws_db_instance.librarydb.password
     }
   }
+
+  depends_on = [ aws_iam_role_policy.lamda_policy, aws_instance.public_laravel ]
 }
 
 resource "aws_scheduler_schedule" "database_refresher" {
