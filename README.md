@@ -26,3 +26,12 @@ Terraform outputs the following variables after completion:
 
 - cloudfront_url (URL of the frontend of the newly generated stack)
 - build_output (Local path of the newly built vue application)
+
+## Destroying
+As per terraform documentation:
+*Due to AWS Lambda improved VPC networking changes that began deploying in September 2019, EC2 subnets and security groups associated with Lambda Functions can take up to 45 minutes to successfully delete.*
+
+Since the Lamda function in this stack has to interact with an RDS instance that is in a private subnet, the Lambda too must be associated with a VPC and subnet, causing issues with destruction.
+
+If the destruction process is interrupted, you might run into an ``` Error: Invalid for_each argument``` error.
+To fix this error and continue destruction, first run ```terraform apply -target=data.external.build_vue_app``` and then proceed with destruction with ```terraform destroy```.
