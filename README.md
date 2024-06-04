@@ -33,5 +33,5 @@ As per terraform documentation:
 
 Since the Lamda function in this stack has to interact with an RDS instance that is in a private subnet, the Lambda too must be associated with a VPC and subnet, causing issues with destruction.
 
-If the destruction process is interrupted, you might run into an ``` Error: Invalid for_each argument``` error.
+If the destruction process is interrupted, you might run into an ``` Error: Invalid for_each argument``` error when trying to run ```terraform destroy``` again.
 To fix this error and continue destruction, first run ```terraform apply -target=data.external.build_vue_app``` and then proceed with destruction with ```terraform destroy```.
