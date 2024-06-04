@@ -3,6 +3,7 @@ data "external" "build_vue_app" {
 }
 
 resource "aws_s3_bucket" "vue_app_bucket" {
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_public_access_block" "allow" {
