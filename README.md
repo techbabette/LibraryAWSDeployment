@@ -4,7 +4,7 @@
 
 The following architecture is created through Terraform.
 
-![AWS Deployment Architecture](https://i.imgur.com/UPA5tK6.png "AWS Deployment Architecture")
+![AWS Deployment Architecture](https://i.imgur.com/mUYyGsw.png "AWS Deployment Architecture")
 
 ## Running
 
