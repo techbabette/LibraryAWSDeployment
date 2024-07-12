@@ -6,15 +6,6 @@ resource "aws_s3_bucket" "vue_app_bucket" {
   force_destroy = true
 }
 
-resource "aws_s3_bucket_public_access_block" "allow" {
-  bucket = aws_s3_bucket.vue_app_bucket.id
-
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
-
 resource "aws_s3_bucket_policy" "vue_app_bucket_policy" {
   bucket = aws_s3_bucket.vue_app_bucket.id
 
@@ -23,14 +14,19 @@ resource "aws_s3_bucket_policy" "vue_app_bucket_policy" {
     Statement = [
       {
         Effect = "Allow"
-        Principal = "*"
+        Principal = {
+            Service: "cloudfront.amazonaws.com"
+        }
         Action = "s3:GetObject"
         Resource = "${aws_s3_bucket.vue_app_bucket.arn}/*"
+        Condition = {
+          StringEquals: {"AWS:SourceArn": "${aws_cloudfront_distribution.vue_app_distribution.arn}"}
+        }
       }
     ]
   })
 
-  depends_on = [ aws_s3_bucket_public_access_block.allow ]
+  depends_on = [ aws_cloudfront_distribution.vue_app_distribution ]
 }
 
 resource "aws_s3_object" "vue_app_files" {

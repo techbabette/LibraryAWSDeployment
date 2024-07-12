@@ -2,10 +2,7 @@ resource "aws_cloudfront_distribution" "vue_app_distribution" {
   origin {
     domain_name = aws_s3_bucket.vue_app_bucket.bucket_regional_domain_name
     origin_id   = aws_s3_bucket.vue_app_bucket.id
-
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
-    }
+    origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
   }
 
   enabled             = true
@@ -44,11 +41,15 @@ resource "aws_cloudfront_distribution" "vue_app_distribution" {
     cloudfront_default_certificate = true
   }
 
-  depends_on = [ aws_cloudfront_origin_access_identity.origin_access_identity, aws_s3_bucket.vue_app_bucket ]
+  depends_on = [ aws_cloudfront_origin_access_control.oac, aws_s3_bucket.vue_app_bucket ]
 }
 
-resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
-  comment = "OAI for frontend distribution"
+resource "aws_cloudfront_origin_access_control" "oac" {
+  name                              = "CloudfrontOAC"
+  description                       = "Cloudfront OAC for S3 origin"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
 }
 
 output "cloudfront_url" {
